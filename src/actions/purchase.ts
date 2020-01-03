@@ -1,5 +1,5 @@
-import { createAction } from 'redux-actions';
+import { createActionCreator } from 'deox'
 
-const addPurchase = createAction('PURCHASE_ADD');
-const updatePurchase = createAction('PURCHASE_UPDATE');
-const deletePurchase = createAction('PURCHASE_DELETE');
+export const addPurchase = createActionCreator('PURCHASE_ADD');
+export const updatePurchase = createActionCreator('PURCHASE_UPDATE');
+export const deletePurchase = createActionCreator('PURCHASE_DELETE');
