@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
-import purchase from './purchase';
-import category from './category';
+import { reducer as formReducer } from 'redux-form';
+import purchases from './purchases/index';
+import categories from './category';
 
-export default combineReducers({ purchase, category });
+// Forms must be declared as independent reducer
+export default combineReducers({
+    purchases,
+    categories,
+    form: formReducer,
+});

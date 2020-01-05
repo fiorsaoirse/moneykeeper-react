@@ -7,8 +7,8 @@ export class Purchase extends BaseModel {
     public categoryID?: number;
     public category?: Category;
 
-    constructor(id: string, created: Date, name: string,
-         cost: number, categoryID?: number, category?: Category) {
+    public constructor(id: string, created: Date, name: string,
+                       cost: number, categoryID?: number, category?: Category) {
              super(id, created);
              this.name = name;
              this.cost = cost;

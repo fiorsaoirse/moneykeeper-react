@@ -1,17 +1,19 @@
+import rootReducers from './reducers/index';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
-import rootReducers from './reducers/index';
-import { createStore, compose, applyMiddleware } from 'redux';
+import ReactDOM from 'react-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { BrowserRouter as Router } from 'react-router-dom';
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 declare global {
+    // tslint:disable:interface-name
     interface Window {
         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
@@ -29,7 +31,9 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router>
+            <App />
+        </Router>
     </Provider>,
     document.getElementById('root'),
 );

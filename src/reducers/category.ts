@@ -1,4 +1,4 @@
-import { createReducer } from 'deox'
+import { createReducer } from 'deox';
 import * as actions from '../actions/categoty';
 import { Category } from '../classes/Category';
 import update from 'immutability-helper';
@@ -16,15 +16,15 @@ const defaultState: {
 const categoryReducer = createReducer(defaultState, handleAction => [
     handleAction(actions.addCategory, (state,  action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
-        const { category } : { category: Category} = action.payload;
+        const { category }: { category: Category} = action.payload;
         return {
             byId: { ...byId, [category.id]: category },
             allIds: [category.id, ...allIds],
-        }
+        };
     }),
     handleAction(actions.updateCategory, (state,  action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
-        const { category } : { category: Category} = action.payload;
+        const { category }: { category: Category} = action.payload;
         return {
             byId: update(byId, { [category.id]: { $set: category } }),
             allIds,
@@ -36,8 +36,8 @@ const categoryReducer = createReducer(defaultState, handleAction => [
         return {
             byId: omit(byId, [id]),
             allIds: allIds.filter((fId: string) => fId !== id),
-        }
+        };
     }),
-  ])
+  ]);
 
 export default categoryReducer;
