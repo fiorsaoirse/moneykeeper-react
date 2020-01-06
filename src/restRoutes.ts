@@ -12,13 +12,13 @@ export default class Router {
         return Router._instance;
     }
 
-    public purchasesUrl (id?: number): string {
+    public purchasesUrl (id?: string): string {
         const url = `${this.baseUri}/purchases/`;
         return (id ? `${url}${id}` : url);
     }
 
-    public categoriesUrl (id?: number): string {
+    public categoriesUrl (id?: string): string {
         const url = `${this.baseUri}/categories/`;
-        return (id ? `${url}id=${id}` : url);
+        return (id ? `${url}${id}` : url);
     }
 }

@@ -1,6 +1,6 @@
 import { createReducer } from 'deox';
-import * as actions from '../actions/categoty';
-import { Category } from '../classes/Category';
+import * as actions from '../../actions/category';
+import { Category } from '../../classes/Category';
 import update from 'immutability-helper';
 import { omit } from 'lodash';
 
@@ -13,8 +13,8 @@ const defaultState: {
     allIds: [],
 };
 
-const categoryReducer = createReducer(defaultState, handleAction => [
-    handleAction(actions.addCategory, (state,  action: { type: string, payload: any }) => {
+export default createReducer(defaultState, handleAction => [
+    handleAction(actions.addCategoriesSuccess, (state,  action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
         const { category }: { category: Category} = action.payload;
         return {
@@ -22,7 +22,7 @@ const categoryReducer = createReducer(defaultState, handleAction => [
             allIds: [category.id, ...allIds],
         };
     }),
-    handleAction(actions.updateCategory, (state,  action: { type: string, payload: any }) => {
+    handleAction(actions.updateCategoriesSuccess, (state,  action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
         const { category }: { category: Category} = action.payload;
         return {
@@ -30,14 +30,12 @@ const categoryReducer = createReducer(defaultState, handleAction => [
             allIds,
         };
     }),
-    handleAction(actions.deleteCategory, (state,  action: { type: string, payload: any }) => {
+    handleAction(actions.removeCategoriesSuccess, (state,  action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
-        const { id }: { id: string } = action.payload;
+        const { category }: { category: Category } = action.payload;
         return {
-            byId: omit(byId, [id]),
-            allIds: allIds.filter((fId: string) => fId !== id),
+            byId: omit(byId, [category.id]),
+            allIds: allIds.filter((fId: string) => fId !== category.id),
         };
     }),
   ]);
-
-export default categoryReducer;

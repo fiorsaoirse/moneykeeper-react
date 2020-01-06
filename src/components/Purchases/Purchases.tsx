@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/purchase';
 import PurchaseItem from './PurchaseItem';
+import { IState } from '../../interfaces/IState';
+import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
+import { Purchase } from '../../classes/Purchase';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: IState) => {
     const { purchases: { byId, allIds } } = state.purchases;
-    const purchases = allIds.map(id => byId[id]);
+    const purchases = allIds.map((id: string) => byId[id]);
     const props = {
         purchases,
         labels: {
@@ -20,36 +23,48 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-    readPurchase: actions.fetchPurchase,
-    readPurchases: actions.fetchPurchases,
+    fetchPurchase: actions.fetchPurchase,
+    fetchPurchases: actions.fetchPurchases,
 };
 
-class Purchases extends Component {
-    componentDidMount() {
-        this.refresh();
+class Purchases extends Component<IPurchaseProps> {
+    public componentDidMount() {
+        // this.refresh();
     }
 
-    refresh = async () => {
-        const { readPurchases } = this.props;
-        try {
-            await readPurchases();
-        } catch (ex) {
-            throw new Error(ex);
-        }
-    }
+    // public refresh = async () => {
+    //     const { fetchPurchases } = this.props;
+    //     try {
+    //         await fetchPurchases();
+    //     } catch (ex) {
+    //         throw new Error(ex);
+    //     }
+    // }
 
-    openCreateForm = () => {
+    public openCreateForm = () => {
         const { history } = this.props;
+        if (!history) {
+            window.location.href = '/purchases/create';
+            return;
+        }
         history.push('/purchases/create');
     }
 
-    render() {
+    public render() {
         const { purchases, labels } = this.props;
 
-        const items = purchases.length > 0
+        const items = purchases && purchases.length > 0
             && purchases
-                .map(({ id, name, cost, created, category }) =>
-                <PurchaseItem key={id} id={id} name={name} created={created} category={category} cost={cost} />);
+                .map((purchase: Purchase) =>
+                    <PurchaseItem purchase={purchase} />);
+
+        const labelsItems = labels && <React.Fragment>
+            <th scope='col'>{labels.name}</th>
+            <th scope='col'>{labels.cost}</th>
+            <th scope='col'>{labels.created}</th>
+            <th scope='col'>{labels.category}</th>
+            <th scope='col'></th>
+        </React.Fragment>;
 
         return (
             <div>
@@ -60,11 +75,7 @@ class Purchases extends Component {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th scope='col'>{labels.name}</th>
-                                <th scope='col'>{labels.cost}</th>
-                                <th scope='col'>{labels.created}</th>
-                                <th scope='col'>{labels.category}</th>
-                                <th scope='col'></th>
+                                {labelsItems}
                             </tr>
                         </thead>
                         <tbody>

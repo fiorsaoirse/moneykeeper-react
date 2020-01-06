@@ -7,7 +7,6 @@ import { Purchase } from '../classes/Purchase';
 export const addPurchaseSuccess = createActionCreator('PURCHASE_ADD_SUCCESS',
   resolve => (purchase: Purchase) => resolve({ purchase }));
 
-
 // Actions for reading purchses
 export const fetchPurchasesRequest = createActionCreator('PURCHASES_FETCH_REQUEST');
 export const fetchPurchasesSuccess = createActionCreator('PURCHASES_FETCH_SUCCESS',
@@ -33,7 +32,7 @@ export const addPurchase = ({ purchase }: { purchase: Purchase }) => async (disp
   dispatch(addPurchaseSuccess(response.data));
 };
 
-export const fetchPurchase = (id: number) => async (dispatch: (arg0: { type: 'PURCHASES_FETCH_REQUEST' | 'PURCHASES_FETCH_SUCCESS' | 'PURCHASES_FETCH_FAILURE'; payload?: { purchases: Purchase[]; }; }) => void) => {
+export const fetchPurchase = (id: string) => async (dispatch: (arg0: { type: 'PURCHASES_FETCH_REQUEST' | 'PURCHASES_FETCH_SUCCESS' | 'PURCHASES_FETCH_FAILURE'; payload?: { purchases: Purchase[]; }; }) => void) => {
   dispatch(fetchPurchasesRequest());
   try {
     const url = router.purchasesUrl(id);
@@ -57,7 +56,7 @@ export const fetchPurchases = () => async (dispatch: (arg0: { type: 'PURCHASES_F
   }
 };
 
-export const updatePurchase = ({ id, purchase }: { id: number, purchase: Purchase }) => async (dispatch: (arg0: { type: 'PURCHASE_UPDATE_REQUEST' | 'PURCHASE_UPDATE_SUCCESS' | 'PURCHASE_UPDATE_FAILURE'; payload?: { purchase: Purchase; } }) => void) => {
+export const updatePurchase = ({ id, purchase }: { id: string, purchase: Purchase }) => async (dispatch: (arg0: { type: 'PURCHASE_UPDATE_REQUEST' | 'PURCHASE_UPDATE_SUCCESS' | 'PURCHASE_UPDATE_FAILURE'; payload?: { purchase: Purchase; } }) => void) => {
   dispatch(updatePurchaseRequest());
   try {
     const url = router.purchasesUrl(id);
@@ -69,7 +68,7 @@ export const updatePurchase = ({ id, purchase }: { id: number, purchase: Purchas
   }
 };
 
-export const deletePurchase = (id: number) => async (dispatch: (arg0: { type: 'PURCHASE_REMOVE_REQUEST' | 'PURCHASE_REMOVE_SUCCESS' | 'PURCHASE_REMOVE_FAILURE'; payload?: { purchase: Purchase; }; }) => void) => {
+export const deletePurchase = (id: string) => async (dispatch: (arg0: { type: 'PURCHASE_REMOVE_REQUEST' | 'PURCHASE_REMOVE_SUCCESS' | 'PURCHASE_REMOVE_FAILURE'; payload?: { purchase: Purchase; }; }) => void) => {
   dispatch(removePurchaseRequest());
   try {
     const url = router.purchasesUrl(id);

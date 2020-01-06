@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/purchase';
+import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
+import { IState } from '../../interfaces/IState';
 
-const mapStateToProps = state => {
+const mapStateToProps = (_state: IState) => {
   const props = {};
   return props;
 };
@@ -11,11 +13,9 @@ const actionCreators = {
   deletePurchase: actions.deletePurchase,
 };
 
-class PurchaseItem extends Component {
-  deletePurchase = (id) => async () => {
-    console.log(id);
+class PurchaseItem extends Component<IPurchaseProps> {
+  public deletePurchase = (id: string) => async () => {
     const { deletePurchase } = this.props;
-    console.log(deletePurchase.toString());
     try {
       await deletePurchase(id);
     } catch (ex) {
@@ -23,8 +23,14 @@ class PurchaseItem extends Component {
     }
   }
 
-  render() {
-    const { id, name, cost, created, category } = this.props;
+  public render() {
+    const { purchase } = this.props;
+
+    if (!purchase) {
+      throw new Error(`The purchase is undefined`);
+    }
+
+    const { id, name, cost, created, category } = purchase;
 
     return (
       <tr>
