@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/purchase';
+import * as actions from '../../store/actions/purchase';
 import PurchaseItem from './PurchaseItem';
 import { IState } from '../../interfaces/IState';
 import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
 import { Purchase } from '../../classes/Purchase';
 
 const mapStateToProps = (state: IState) => {
-    const { purchases: { byId, allIds } } = state.purchases;
+    const { data: { byId, allIds } } = state.purchases;
     const purchases = allIds.map((id: string) => byId[id]);
     const props = {
         purchases,
@@ -23,24 +23,10 @@ const mapStateToProps = (state: IState) => {
 };
 
 const actionCreators = {
-    fetchPurchase: actions.fetchPurchase,
-    fetchPurchases: actions.fetchPurchases,
+    read: actions.readPurchase
 };
 
 class Purchases extends Component<IPurchaseProps> {
-    public componentDidMount() {
-        // this.refresh();
-    }
-
-    // public refresh = async () => {
-    //     const { fetchPurchases } = this.props;
-    //     try {
-    //         await fetchPurchases();
-    //     } catch (ex) {
-    //         throw new Error(ex);
-    //     }
-    // }
-
     public openCreateForm = () => {
         const { history } = this.props;
         if (!history) {
@@ -58,13 +44,14 @@ class Purchases extends Component<IPurchaseProps> {
                 .map((purchase: Purchase) =>
                     <PurchaseItem purchase={purchase} />);
 
-        const labelsItems = labels && <React.Fragment>
-            <th scope='col'>{labels.name}</th>
-            <th scope='col'>{labels.cost}</th>
-            <th scope='col'>{labels.created}</th>
-            <th scope='col'>{labels.category}</th>
-            <th scope='col'></th>
-        </React.Fragment>;
+        const labelItems = labels &&
+            <React.Fragment>
+                <th scope='col'>{labels.name}</th>
+                <th scope='col'>{labels.cost}</th>
+                <th scope='col'>{labels.created}</th>
+                <th scope='col'>{labels.category}</th>
+                <th scope='col'></th>
+            </React.Fragment>;
 
         return (
             <div>
@@ -75,7 +62,7 @@ class Purchases extends Component<IPurchaseProps> {
                     <table className='table'>
                         <thead>
                             <tr>
-                                {labelsItems}
+                                {labelItems}
                             </tr>
                         </thead>
                         <tbody>

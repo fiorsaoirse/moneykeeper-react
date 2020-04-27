@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/purchase';
+import * as actions from '../../store/actions/purchase';
 import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
 import { IState } from '../../interfaces/IState';
 import { Category } from '../../classes/Category';
@@ -13,11 +13,11 @@ interface IPurchaseForm {
 }
 
 const mapStateToProps = (state: IState) => {
-    const { categories: { byId, allIds } } = state.categories;
-    const categories = allIds.map(id => byId[id]);
+    // const { categories: { byId, allIds } } = state.categories;
+    // const categories = allIds.map(id => byId[id]);
 
     const props = {
-        categories,
+        // categories,
         labels: {
             name: 'Название',
             cost: 'Стоимость',
@@ -28,14 +28,14 @@ const mapStateToProps = (state: IState) => {
 };
 
 const actionCreators = {
-    addPurchase: actions.addPurchase,
+    createPurchase: actions.createPurchase,
 };
 
 class PurchaseForm extends Component<IPurchaseProps & InjectedFormProps<IPurchaseForm, IPurchaseProps>> {
-    public addPurchase = async (fields: any) => {
-        const { addPurchase, reset } = this.props;
+    public submitForm = async (fields: any) => {
+        const { createPurchase, reset } = this.props;
         try {
-            await addPurchase({ purchase: fields });
+            await createPurchase({ purchase: fields });
         } catch (ex) {
             throw new Error(ex);
         }
@@ -64,7 +64,7 @@ class PurchaseForm extends Component<IPurchaseProps & InjectedFormProps<IPurchas
             </React.Fragment>;
 
         return (
-            <form className='form' onSubmit={handleSubmit(this.addPurchase)}>
+            <form className='form' onSubmit={handleSubmit(this.submitForm)}>
                 <div className='form-group row mx-3'>
                     {labelItems}
                 </div>

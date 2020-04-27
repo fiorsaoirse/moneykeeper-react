@@ -1,4 +1,4 @@
-import rootReducers from './reducers/index';
+import rootReducers from './store/reducers/index';
 import React from 'react';
 import './index.scss';
 import App from './components/App/App';

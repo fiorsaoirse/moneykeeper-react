@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import { connect } from 'react-redux';
-import * as purchaseActions from '../../actions/purchase';
-import * as categoryActions from '../../actions/category';
+import * as purchaseActions from '../../store/actions/purchase';
+import * as categoryActions from '../../store/actions/category';
 import { IState } from '../../interfaces/IState';
 import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
 import { ICategoryProps } from '../../interfaces/ICategoryProps';
@@ -17,8 +17,8 @@ const mapStateToProps = (_state: IState) => {
 };
 
 const actionCreators = {
-  fetchPurchases: purchaseActions.fetchPurchases,
-  fetchCategories: categoryActions.fetchCategories,
+  readPurchases: purchaseActions.readPurchases,
+  readCategories: categoryActions.readCategories,
 };
 
 class App extends Component<IAppProps> {
@@ -26,10 +26,11 @@ class App extends Component<IAppProps> {
     this.init();
   }
 
-  public init = async () => {
-    const { fetchPurchases, fetchCategories } = this.props;
-    await fetchPurchases();
-    await fetchCategories();
+  // Initializing store - read app and domain data for entities
+  public init = async (): Promise<void> => {
+    const { readPurchases, readCategories } = this.props;
+    await readPurchases();
+    await readCategories();
   }
 
   public render() {

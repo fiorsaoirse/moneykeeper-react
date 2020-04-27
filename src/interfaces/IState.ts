@@ -1,27 +1,21 @@
+import { BaseModel } from '../classes/BaseModel';
 import { Purchase } from '../classes/Purchase';
 
-import { Category } from '../classes/Category';
+// Base entity state for store
+interface IStandartEntity<T extends BaseModel> {
+    // AppData state: creating, reading, updating, deleting etc states for rendering
+    app: {
+        [ key: string ]: string,
+    };
+    // DomainData state: all entites, contained as map of entities by ids, and array of ids
+    data: {
+        byId: {
+            [ key: string ]: T
+        }
+        allIds: string[]
+    };
+}
 
 export interface IState {
-    purchases: {
-        purchasesAddState: string;
-        purchasesFetchState: string;
-        purchasesRemoveState: string;
-        purchasesUpdateState: string;
-        purchases: {
-            byId: { [key: string]: Purchase },
-            allIds: string[],
-        },
-
-    };
-    categories: {
-        categoriesAddState: string;
-        categoriesFetchState: string;
-        categoriesRemoveState: string;
-        categoriesUpdateState: string;
-        categories: {
-            byId: { [key: string]: Category },
-            allIds: string[],
-        },
-    };
+    purchases: IStandartEntity<Purchase>;
 }

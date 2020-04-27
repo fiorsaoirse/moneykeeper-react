@@ -1,21 +1,20 @@
 import { createReducer } from 'deox';
 import * as actions from '../../actions/purchase';
-import { Purchase } from '../../classes/Purchase';
+import { Purchase } from '../../../classes/Purchase';
 import update from 'immutability-helper';
 import { keyBy, omit } from 'lodash';
+import { defaultStateType } from '../defaultStateType';
 
 // define default state
-const defaultState: {
-    byId: {},
-    allIds: string[],
-} = {
+const defaultState: defaultStateType = {
     byId: {},
     allIds: [],
 };
 
+// Purchase reducer describe possible state actions with changing purchases
 export default createReducer(defaultState, handleAction => [
     // CREATE reducer
-    handleAction(actions.addPurchaseSuccess, (state, action: { type: string, payload: any }) => {
+    handleAction(actions.createSuccess, (state, action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
         const { purchase }: { purchase: Purchase } = action.payload;
         return {
@@ -24,7 +23,7 @@ export default createReducer(defaultState, handleAction => [
         };
     }),
     // READ reducer
-    handleAction(actions.fetchPurchasesSuccess, (_state, action: { type: string, payload: any }) => {
+    handleAction(actions.readSuccess, (_state, action: { type: string, payload: any }) => {
         const { purchases }: { purchases: Purchase[] } = action.payload;
         return {
             byId: keyBy(purchases, 'id'),
@@ -32,7 +31,7 @@ export default createReducer(defaultState, handleAction => [
         };
     }),
     // UPDATE reducer
-    handleAction(actions.updatePurchaseSuccess, (state, action: { type: string, payload: any }) => {
+    handleAction(actions.updateSuccess, (state, action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
         const { purchase }: { purchase: Purchase } = action.payload;
         return {
@@ -41,7 +40,7 @@ export default createReducer(defaultState, handleAction => [
         };
     }),
     // DELETE
-    handleAction(actions.removePurchaseSuccess, (state, action: { type: string, payload: any }) => {
+    handleAction(actions.deleteSuccess, (state, action: { type: string, payload: any }) => {
         const { byId, allIds } = state;
         const { purchase }: { purchase: Purchase } = action.payload;
         return {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/purchase';
+import * as actions from '../../store/actions/purchase';
 import { IPurchaseProps } from '../../interfaces/IPurchaseProps';
 import { IState } from '../../interfaces/IState';
 
